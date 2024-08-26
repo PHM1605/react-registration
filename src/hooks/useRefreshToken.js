@@ -6,12 +6,20 @@ const useRefreshToken = () => {
 
   const refresh = async () => {
     const response = await axios.get('/refresh', { withCredentials: true });
-    setAuth()
+    // set context based on previous state of context
+    setAuth(prev => {
+      console.log("PREV:", JSON.stringify(prev));
+      console.log(response.data.accessToken);
+      return {
+        ...prev, 
+        roles: response.data.roles,
+        accessToken: response.data.accessToken
+      };
+    });
+    return response.data.accessToken; // return new accessToken
   }
 
-  return (
-    <div>useRefresh</div>
-  )
+  return refresh;
 }
 
-export default useRefresh
+export default useRefreshToken;

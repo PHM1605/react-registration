@@ -6,7 +6,10 @@ const AuthContext = createContext({});
 // "auth" is authentication Context
 export const AuthProvider = ({children}) => {
   const [auth, setAuth] = useState({});
-  return <AuthContext.Provider value={{auth, setAuth}}>
+  // "do you trust this device or not" - to save refreshToken and accessToken
+  const [persist, setPersist] = useState(JSON.parse(localStorage.getItem("persist")) || false)
+
+  return <AuthContext.Provider value={{auth, setAuth, persist, setPersist}}>
     {children}
   </AuthContext.Provider>
 }
