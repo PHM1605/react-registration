@@ -17,8 +17,9 @@ const Users = () => {
         const response = await axiosPrivate.get('/users', {
           signal: controller.signal // cancel the request if we need to
         });
+        const userNames = response.data.map(user => user.username);
         console.log(response.data);
-        isMounted && setUsers(response.data);
+        isMounted && setUsers(userNames);
       } catch(err) {
         console.error(err);
         // when the user refreshToken expires -> ask them to login and relocate to where they were
@@ -38,7 +39,7 @@ const Users = () => {
       {users?.length
         ? (
           <ul>
-            {users.map((user, i) => <li key={i}>{user?.username}</li>)}
+            {users.map((user, i) => <li key={i}>{user}</li>)}
           </ul>
         ) 
         : <p>No users to display</p>
